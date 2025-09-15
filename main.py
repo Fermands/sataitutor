@@ -35,8 +35,8 @@ vocab_db()
 router = Router()
 
 
-AI_API_KEY = "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"
-AI_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+AI_API_KEY = "TOKEN"
+AI_API_URL = "SECRET"
 
 
 # Define FSM (finite state machine) for registration
@@ -602,3 +602,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
