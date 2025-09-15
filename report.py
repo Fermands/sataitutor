@@ -14,7 +14,7 @@ from db import init_db, add_user, get_user,get_fulluserdata
 class Register(StatesGroup):
     problem=State()
 
-TOKEN ="8255982658:AAGZZOLaTucfB2hr3HoYtC7AjsO0Q2jR4uc"
+TOKEN ="token"
 router = Router()
 bot = Bot(token=TOKEN)
 
@@ -28,7 +28,7 @@ async def send_prove(message: Message, state: FSMContext):
     username=message.from_user.username
     user_report=message.text
     await message.answer(text="✅ We have received your problem/bug and will get in touch with you soon.")
-    group_id= -4893614751
+    group_id= -group
     report = (
         f"⚠️ NEW BUG OR PROBLEM\n"
         f"🆔 ID:{user}\n"
@@ -46,3 +46,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
