@@ -31,7 +31,7 @@ from vocab import vocab_db, save_user_time,get_user,update_progress,reset_day,ch
 from datetime import datetime, timedelta
 init_db()
 vocab_db()
-# Router for registration
+
 router = Router()
 
 
@@ -39,7 +39,7 @@ AI_API_KEY = "TOKEN"
 AI_API_URL = "SECRET"
 
 
-# Define FSM (finite state machine) for registration
+
 class Register(StatesGroup):
     full_name = State()
     age = State()
@@ -65,7 +65,7 @@ main_menu = ReplyKeyboardMarkup(
 )
 
 #MENU COMMMANDS 
-# /start command
+
 @router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     user=get_user1(message.from_user.id)
@@ -162,7 +162,7 @@ def generate_time_keyboard():
         buttons.append([am_button, pm_button])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
-#Vocabulary
+
 @router.message(F.text == "📚 Vocabulary")
 async def vocab_menu(message: Message):
     kb = ReplyKeyboardMarkup(
@@ -201,12 +201,12 @@ async def reminder_job(bot: Bot, user_id: int):
         await bot.send_message(user_id, f"No words found for Day {day}.")
         return
 
-    # Check if user already started this day
+   
     if progress >= len(words):
         await bot.send_message(user_id, f"✅ You’ve already finished Day {day}!")
         return
 
-    # Send first word of the day or next word
+    
     word_index = progress
     word, definition = words[word_index]
 
@@ -273,11 +273,11 @@ async def send_summary(bot: Bot, user_id: int, day: int):
     text = f"✅ Day {day} finished!\n\nToday's words:\n" + "\n".join([f"• {w} — {d}" for w, d in words])
     await bot.send_message(user_id, text)
 
-    # Prepare next day
+    
     next_day = day + 1
     reset_day(user_id, next_day)
 
-    # Show "Change time" option
+    
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🔄 Change Reminder Time", callback_data="change_time")]
     ])
@@ -440,7 +440,7 @@ async def review_day_callback(callback: CallbackQuery):
 
     text = f"📖 Words from Day {day}:\n" + "\n".join([f"• {w} — {d}" for w, d in words])
     await callback.message.edit_text(text)
-#END OF VOCAB
+
 
 
 @router.message(F.text=="👤 Profile")
@@ -519,7 +519,7 @@ async def ai_help(message: Message, state: FSMContext):
     question = message.text
     headers = {"Authorization": f"Bearer {AI_API_KEY}"}
 
-# SAT explanation prompt
+
     sat_prompt = f"""
 You are an SAT Tutor. 
 Only answer questions that are directly related to the SAT exam (English, Math, Reading/Writing, test-taking strategies). 
@@ -542,7 +542,7 @@ Ensure that your explanation is clear, concise, and educational, aiding in the u
 """
 
     data = {
-    "model": "meta-llama/llama-4-scout-17b-16e-instruct",  # or another Groq model
+    "model": "", 
     "messages": [{"role": "user", "content": sat_prompt}]
 }
 
@@ -593,7 +593,7 @@ async def practise_tests_bot(message:Message):
     await message.answer("Here:", reply_markup=kb)
 
 
-# Main entry
+
 async def main():
     bot = Bot(token=TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
@@ -602,4 +602,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
